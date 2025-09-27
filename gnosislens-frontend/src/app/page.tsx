@@ -1,6 +1,6 @@
 'use client'; // To indicate some action is needed from the client?
 import Image from "next/image";
-import dynamic from "next/dynamic";
+import SpeechBubbleInput from "../../components/SpeechBubbleInput";
 import TextInput from "../../components/TextInput";
 
 export default function Home() {
@@ -25,7 +25,7 @@ export default function Home() {
           </li>
         </ol>
         <div className="UserTextInput">
-          <TextInput />
+          <SpeechBubbleInput />
           <button
             type="button"
             className="Athena Button"

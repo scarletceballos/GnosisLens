@@ -1,0 +1,23 @@
+.speech-bubble-input {
+  position: relative;
+  width: 500px; /* match your image */
+  height: 400px; /* match your image */
+  background: url('/textbubblereverse.png') no-repeat center/contain;
+background-size: 120% 100%; /* scale the image to fill the container */
+  display: flex;
+  align-items: center;
+  padding: 15px; /* space inside bubble for text */
+  cursor: text;
+}
+
+.speech-bubble-input input {
+
+  width: 50%;
+  border: none;
+  background: transparent;
+  color: rgb(255, 255, 255); /* adjust for contrast */
+  font-size: 16px;
+  outline: none;
+  /* Optional: hint rectangle inside bubble */
+  border-bottom: 2px dashed rgb(244, 238, 238);
+}
