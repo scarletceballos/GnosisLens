@@ -1,6 +1,5 @@
 // LoadingScreen.tsx
 import React from 'react';
-import "./LoadingScreen.css"; // optional CSS file
 
 const LoadingScreen: React.FC = () => {
   return (
@@ -10,3 +9,5 @@ const LoadingScreen: React.FC = () => {
     </div>
   );
 };
+
+export default LoadingScreen;

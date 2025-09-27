@@ -1,0 +1,20 @@
+{
+  "status": "success",
+  "data": {
+    "itemName": "bottle of water",
+    "pricePaid": 50,
+    "currency": "EGP",
+    "scamScore": 85,
+    "scamLevel": "HIGH",
+    "goddess": "NEMESIS",
+    "goddessResponse": "By the scales of justice, this price is an outrage!...",
+    "advice": "For water bottles in Egypt, the fair price range is 5-15 EGP. Always check local supermarkets...",
+    "currencyConversion": {
+      "originalAmount": 50,
+      "originalCurrency": "EGP",
+      "convertedAmount": 1.63,
+      "convertedCurrency": "USD",
+      "exchangeRate": 0.0325
+    }
+  }
+}
