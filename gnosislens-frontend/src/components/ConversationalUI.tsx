@@ -192,15 +192,15 @@ const ConversationalUI = () => {
                   group.sender === "user" ? "justify-end" : "justify-start"
                 }`}
               >
-                {/* Avatar for character messages */}
+                {/* Avatar for character messages - UPDATED with larger size */}
                 {group.sender === "character" && (
-                  <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 border border-emerald-400/50 bg-emerald-900/40">
+                  <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border border-emerald-400/50 bg-emerald-900/40 flex items-center justify-center">
                     <Image
-                      src="/images/athena-icon.png"
+                      src="/images/athena_profile.png"
                       alt="Athena"
-                      width={32}
-                      height={32}
-                      className="object-cover"
+                      width={40}
+                      height={40}
+                      className="object-contain"
                     />
                   </div>
                 )}
@@ -270,7 +270,7 @@ const ConversationalUI = () => {
                 
                 {/* Avatar for user messages */}
                 {group.sender === "user" && (
-                  <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 border border-blue-400/50 bg-blue-700/40">
+                  <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border border-blue-400/50 bg-blue-700/40">
                     <div className="w-full h-full flex items-center justify-center text-white font-bold">
                       Y
                     </div>
@@ -279,17 +279,17 @@ const ConversationalUI = () => {
               </div>
             ))}
             
-            {/* Typing indicator - changed with transparent background */}
+            {/* Typing indicator - UPDATED with larger size */}
             <AnimatePresence>
               {typing && (
                 <div className="flex items-center gap-2 mt-2">
-                  <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 border border-emerald-400/50 bg-emerald-900/40">
+                  <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border border-emerald-400/50 bg-emerald-900/40 flex items-center justify-center">
                     <Image
-                      src="/images/athena-icon.png"
+                      src="/images/athena_profile.png"
                       alt="Athena"
-                      width={32}
-                      height={32}
-                      className="object-cover"
+                      width={40}
+                      height={40}
+                      className="object-contain"
                     />
                   </div>
                   <div className="rounded-xl rounded-tl-none px-4 py-2.5">
