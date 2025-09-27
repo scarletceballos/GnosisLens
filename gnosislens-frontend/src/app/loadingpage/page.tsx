@@ -4,12 +4,13 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from 'next/image';
-import bg from '../../images/background.png';
 
 const LoadingScreen: React.FC = () => {
   const [progress, setProgress] = useState<number>(0);
   const [isTransitionComplete, setIsTransitionComplete] = useState<boolean>(false);
   const router = useRouter();
+
+
 
   useEffect(() => {
     // Increment 25% every 2 seconds until reaching 100%
@@ -30,7 +31,7 @@ const LoadingScreen: React.FC = () => {
 
   return (
     <div className="relative min-h-screen">
-  <Image src={bg} alt="Background" fill className="object-cover -z-10" priority />
+  <Image src="/images/background.png" alt="Background" fill className="object-cover -z-10" priority />
 
       <div className="min-h-screen flex items-center justify-center flex-col text-center px-4">
         <div className="spinner mb-6" aria-hidden />
