@@ -5,7 +5,8 @@
   --foreground: #1b6d2b;
 }
 
-@theme inline {
+/* Theme variables consolidated into :root. Removed unsupported @theme at-rule. */
+:root {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);

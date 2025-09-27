@@ -6,12 +6,27 @@ import TextInput from "./TextInput";
 import { motion, AnimatePresence } from "../components/motion-polyfill";
 
 // Optional import for auto-animate - use a ref if not available
-let useAutoAnimate = () => [null];
-try {
-  const formkitAutoAnimate = require('@formkit/auto-animate/react');
-  useAutoAnimate = formkitAutoAnimate.useAutoAnimate;
-} catch (e) {
-  console.warn('Auto-animate not available, animations will be basic');
+// Provide a fallback; we'll try to dynamically load the library client-side to avoid build-time
+// resolution errors with Turbopack / server bundles.
+let useAutoAnimate: () => [any, (el?: any) => void] = () => [null, () => {}];
+
+// Client-only dynamic import to set up auto-animate if it's available.
+if (typeof window !== 'undefined') {
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  (async () => {
+    try {
+      const mod = await import('@formkit/auto-animate/react');
+      if (mod?.useAutoAnimate) {
+        useAutoAnimate = mod.useAutoAnimate;
+      }
+    } catch (e) {
+      // Not fatal; animations remain basic.
+      // Keep console.warn to help with debugging in dev.
+      // But don't throw during SSR or build.
+      // eslint-disable-next-line no-console
+      console.warn('Auto-animate not available, animations will be basic');
+    }
+  })();
 }
 
 interface Message {
@@ -32,7 +47,7 @@ const ConversationalUI = () => {
   );
   const [inputText, setInputText] = useState("");
   const [typing, setTyping] = useState(false);
-  const [parent] = useAutoAnimate<HTMLDivElement>();
+  const [parent] = useAutoAnimate();
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
