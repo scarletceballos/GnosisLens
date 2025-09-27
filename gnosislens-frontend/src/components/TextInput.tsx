@@ -25,12 +25,12 @@ const TextInput: React.FC<TextInputProps> = ({
       onKeyPress={onKeyPress}
       placeholder={placeholder}
       disabled={disabled}
-      className={`w-full px-4 py-2 rounded-lg bg-black/20 dark:bg-black/30 backdrop-blur-sm
-                 border-none
-                 text-amber-100 placeholder:text-amber-300/40
-                 focus:outline-none focus:ring-1 focus:ring-amber-500/30 z-10
+      className={`w-full px-4 py-2 rounded-lg bg-black/80 dark:bg-black/90
+                 border border-gray-700 
+                 text-gray-100 placeholder:text-gray-500
+                 focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600/30 z-10
                  disabled:opacity-70 disabled:cursor-not-allowed
-                 transition-all duration-200 focus:scale-[1.01] pr-10`}
+                 transition-colors duration-200`}
       autoComplete="off"
       autoCorrect="off"
       spellCheck="false"
