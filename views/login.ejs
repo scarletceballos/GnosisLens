@@ -1,0 +1,64 @@
+<% layout('layout') -%>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="auth-container p-5">
+                <div class="text-center mb-4">
+                    <i class="fas fa-sign-in-alt fa-3x text-success mb-3"></i>
+                    <h2 class="fw-bold">Welcome Back</h2>
+                    <p class="text-muted">Sign in to your account</p>
+                </div>
+
+                <!-- Display flash messages -->
+                <% if (typeof error !== 'undefined' && error.length > 0) { %>
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        <%= error %>
+                    </div>
+                <% } %>
+
+                <form action="/login" method="POST">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">
+                            <i class="fas fa-user me-1"></i>Username or Email
+                        </label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="username" 
+                               name="username" 
+                               placeholder="Enter your username or email"
+                               required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="password" class="form-label">
+                            <i class="fas fa-lock me-1"></i>Password
+                        </label>
+                        <input type="password" 
+                               class="form-control" 
+                               id="password" 
+                               name="password" 
+                               placeholder="Enter your password"
+                               required>
+                    </div>
+
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                        </button>
+                    </div>
+                </form>
+
+                <div class="text-center">
+                    <p class="text-muted">
+                        Don't have an account? 
+                        <a href="/register" class="text-decoration-none">
+                            <i class="fas fa-user-plus me-1"></i>Create Account
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

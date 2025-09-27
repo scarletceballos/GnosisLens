@@ -1,0 +1,129 @@
+<% layout('layout') -%>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="auth-container p-5">
+                <div class="text-center mb-4">
+                    <i class="fas fa-user-plus fa-3x text-primary mb-3"></i>
+                    <h2 class="fw-bold">Create Account</h2>
+                    <p class="text-muted">Join our price analysis platform</p>
+                </div>
+
+                <!-- Display errors -->
+                <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            <% errors.forEach(function(error) { %>
+                                <li><%= error.msg %></li>
+                            <% }); %>
+                        </ul>
+                    </div>
+                <% } %>
+
+                <form action="/register" method="POST">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="firstName" class="form-label">
+                                <i class="fas fa-user me-1"></i>First Name
+                            </label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="firstName" 
+                                   name="firstName" 
+                                   value="<%= typeof firstName !== 'undefined' ? firstName : '' %>"
+                                   required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="lastName" class="form-label">
+                                <i class="fas fa-user me-1"></i>Last Name
+                            </label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="lastName" 
+                                   name="lastName" 
+                                   value="<%= typeof lastName !== 'undefined' ? lastName : '' %>"
+                                   required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="username" class="form-label">
+                            <i class="fas fa-at me-1"></i>Username
+                        </label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="username" 
+                               name="username" 
+                               value="<%= typeof username !== 'undefined' ? username : '' %>"
+                               required>
+                        <div class="form-text">Choose a unique username</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">
+                            <i class="fas fa-envelope me-1"></i>Email Address
+                        </label>
+                        <input type="email" 
+                               class="form-control" 
+                               id="email" 
+                               name="email" 
+                               value="<%= typeof email !== 'undefined' ? email : '' %>"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="location" class="form-label">
+                            <i class="fas fa-map-marker-alt me-1"></i>Location
+                        </label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="location" 
+                               name="location" 
+                               value="<%= typeof location !== 'undefined' ? location : '' %>"
+                               placeholder="City, Country"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">
+                            <i class="fas fa-lock me-1"></i>Password
+                        </label>
+                        <input type="password" 
+                               class="form-control" 
+                               id="password" 
+                               name="password" 
+                               required>
+                        <div class="form-text">Minimum 6 characters</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="confirmPassword" class="form-label">
+                            <i class="fas fa-lock me-1"></i>Confirm Password
+                        </label>
+                        <input type="password" 
+                               class="form-control" 
+                               id="confirmPassword" 
+                               name="confirmPassword" 
+                               required>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-user-plus me-2"></i>Create Account
+                        </button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-4">
+                    <p class="text-muted">
+                        Already have an account? 
+                        <a href="/login" class="text-decoration-none">
+                            <i class="fas fa-sign-in-alt me-1"></i>Sign In
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

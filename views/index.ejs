@@ -1,0 +1,52 @@
+<% layout('layout') -%>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="auth-container p-5 text-center">
+                <h1 class="display-4 mb-4">
+                    <i class="fas fa-chart-line text-primary me-3"></i>
+                    Welcome to Price Analysis
+                </h1>
+                <p class="lead mb-4">Track and analyze prices with our powerful platform</p>
+                
+                <% if (typeof user !== 'undefined' && user) { %>
+                    <div class="alert alert-success">
+                        <h4>Welcome back, <%= user.firstName %>!</h4>
+                        <p>You are logged in as <strong><%= user.username %></strong></p>
+                        <a href="/dashboard" class="btn btn-primary btn-lg">
+                            <i class="fas fa-tachometer-alt me-2"></i>Go to Dashboard
+                        </a>
+                    </div>
+                <% } else { %>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body p-4">
+                                    <i class="fas fa-user-plus fa-3x text-primary mb-3"></i>
+                                    <h5 class="card-title">New User?</h5>
+                                    <p class="card-text">Create an account to start analyzing prices</p>
+                                    <a href="/register" class="btn btn-primary">
+                                        <i class="fas fa-user-plus me-2"></i>Register Now
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body p-4">
+                                    <i class="fas fa-sign-in-alt fa-3x text-success mb-3"></i>
+                                    <h5 class="card-title">Existing User?</h5>
+                                    <p class="card-text">Sign in to access your dashboard</p>
+                                    <a href="/login" class="btn btn-success">
+                                        <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
