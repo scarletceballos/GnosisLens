@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 
+
 type Props = {
   value?: string;
   onChange?: (val: string) => void;
@@ -10,6 +11,7 @@ type Props = {
   className?: string;
   name?: string;
 };
+
 
 export default function TextInput({ value, onChange, placeholder = "", label, className = "", name }: Props) {
   const [internal, setInternal] = useState<string>(value ?? "");
