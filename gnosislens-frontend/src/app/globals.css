@@ -24,3 +24,13 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Custom cursor - using local file */
+* {
+  cursor: url('https://cur.cursors-4u.net/nature/nat-11/nat1010.cur'), auto !important;
+}
+
+/* Cursor for clickable elements */
+a, button, [role="button"], input[type="submit"], input[type="button"], input[type="reset"] {
+  cursor: url('https://cur.cursors-4u.net/nature/nat-11/nat1010.cur'), pointer !important;
+}

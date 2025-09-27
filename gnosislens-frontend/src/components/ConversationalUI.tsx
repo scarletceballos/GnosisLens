@@ -86,18 +86,18 @@ const ConversationalUI = () => {
 
   return (
     <div className="w-full max-h-[70vh] flex items-stretch relative">
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_0.8fr] gap-4 w-full z-10 p-4">
-        {/* Chat Area */}
+      <div className="grid grid-cols-1 md:grid-cols-[1fwhr_0.8fr] gap-4 w-full z-10 p-4">
+        {/* Chat Area - Made more opaque and changed to green theme */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3 }}
-          className="flex flex-col h-[60vh] bg-[#1a1c2d]/60 dark:bg-[#1a1c2d]/70 backdrop-blur-lg rounded-2xl p-4 border border-amber-500/30 relative overflow-hidden shadow-xl"
+          className="flex flex-col h-[60vh] bg-[#1a1c2d]/85 dark:bg-[#1a1c2d]/90 backdrop-blur-lg rounded-2xl p-4 border border-emerald-500/30 relative overflow-hidden shadow-xl"
         >
-          {/* Background texture overlay */}
-          <div className="absolute inset-0 opacity-10 bg-[url('/images/marble-texture.png')] bg-repeat"></div>
+          {/* Background texture overlay - reduced opacity */}
+          <div className="absolute inset-0 opacity-5 bg-[url('/images/marble-texture.png')] bg-repeat"></div>
           
-          {/* Golden laurel wreath top decoration */}
+          {/* Golden laurel wreath top decoration - changed to green */}
           <div className="absolute top-0 left-0 w-full h-24 pointer-events-none overflow-hidden">
             <svg
               className="absolute top-0 left-1/2 transform -translate-x-1/2 w-96 h-32"
@@ -105,7 +105,7 @@ const ConversationalUI = () => {
             >
               <path
                 d="M200 20 Q180 10 160 20 Q140 30 120 25 Q100 20 80 30 M200 20 Q220 10 240 20 Q260 30 280 25 Q300 20 320 30"
-                stroke="#d4af37"
+                stroke="#10b981"
                 strokeWidth="2"
                 fill="none"
                 className="laurel-path"
@@ -120,7 +120,7 @@ const ConversationalUI = () => {
                   >
                     <path
                       d={`M0 0 Q-15 5 -10 15 Q-5 25 0 20 Q5 25 10 15 Q15 5 0 0`}
-                      fill="#d4af37"
+                      fill="#10b981"
                       opacity="0.8"
                       className="leaf"
                       style={{ animationDelay: `${i * 0.05}s` }}
@@ -136,7 +136,7 @@ const ConversationalUI = () => {
                   >
                     <path
                       d={`M0 0 Q15 5 10 15 Q5 25 0 20 Q-5 25 -10 15 Q-15 5 0 0`}
-                      fill="#d4af37"
+                      fill="#10b981"
                       opacity="0.8"
                       className="leaf"
                       style={{ animationDelay: `${i * 0.05}s` }}
@@ -144,26 +144,26 @@ const ConversationalUI = () => {
                   </g>
                 ))}
               </g>
-              {/* Circular medallion in the center */}
-              <circle cx="200" cy="20" r="15" fill="#d4af37" className="medallion" />
+              {/* Circular medallion in the center - changed to green */}
+              <circle cx="200" cy="20" r="15" fill="#10b981" className="medallion" />
               <circle
                 cx="200"
                 cy="20"
                 r="12"
                 fill="#1a1c2d"
-                stroke="#d4af37"
+                stroke="#10b981"
                 strokeWidth="1"
               />
               <path
                 d="M200 12 L203 18 L210 18 L204 22 L206 28 L200 24 L194 28 L196 22 L190 18 L197 18 Z"
-                fill="#d4af37"
+                fill="#10b981"
               />
             </svg>
           </div>
 
-          {/* Chat header */}
-          <div className="relative pt-10 pb-3 mb-3 border-b border-amber-500/30 text-center">
-            <h3 className="text-xl font-medium text-amber-200">
+          {/* Chat header - changed to green */}
+          <div className="relative pt-10 pb-3 mb-3 border-b border-emerald-500/30 text-center">
+            <h3 className="text-xl font-medium text-emerald-200">
               <span className="tracking-wider">ORACLE OF WISDOM</span>
             </h3>
             <div className="absolute bottom-0 left-0 w-full h-4 overflow-hidden opacity-80">
@@ -174,7 +174,7 @@ const ConversationalUI = () => {
               >
                 <path
                   d="M0 5 H10 V0 H20 V10 H30 V0 H40 V10 H50 V0 H60 V10 H70 V0 H80 V10 H90 V0 H100 V10 H110 V0 H120 V10 H130 V0 H140 V10 H150 V0 H160 V10 H170 V0 H180 V10 H190 V0 H200"
-                  stroke="#d4af37"
+                  stroke="#10b981"
                   strokeWidth="1"
                   fill="none"
                   className="greek-key-pattern"
@@ -194,7 +194,7 @@ const ConversationalUI = () => {
               >
                 {/* Avatar for character messages */}
                 {group.sender === "character" && (
-                  <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 border border-amber-400/50 bg-amber-900/40">
+                  <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 border border-emerald-400/50 bg-emerald-900/40">
                     <Image
                       src="/images/athena-icon.png"
                       alt="Athena"
@@ -214,15 +214,19 @@ const ConversationalUI = () => {
                       transition={{ duration: 0.3 }}
                       className={`relative rounded-xl px-4 py-3 ${
                         message.sender === "user"
-                          ? "bg-blue-600/50 text-white rounded-tr-none ml-auto"
-                          : "bg-amber-900/30 text-amber-100 rounded-tl-none"
+                          ? "ml-auto"
+                          : ""
                       }`}
                     >
-                      <p className="text-sm leading-relaxed relative z-10">
+                      <p className={`text-base leading-relaxed relative z-10 ${
+                        message.sender === "user"
+                          ? "text-blue-100"
+                          : "text-emerald-100"
+                      }`}>
                         {message.text}
                       </p>
 
-                      {/* Animated Greek-themed border */}
+                      {/* Animated border - changed to green for oracle */}
                       <svg
                         className="absolute inset-0 w-full h-full pointer-events-none"
                         viewBox="0 0 100 60"
@@ -236,7 +240,7 @@ const ConversationalUI = () => {
                           rx="10"
                           ry="10"
                           fill="none"
-                          stroke={message.sender === "user" ? "#3b82f6" : "#d4af37"}
+                          stroke={message.sender === "user" ? "#3b82f6" : "#10b981"}
                           strokeWidth="1.5"
                           className="msg-border"
                         />
@@ -253,7 +257,7 @@ const ConversationalUI = () => {
                         ) : (
                           <path
                             d="M20 10 H30 V14 H34 V18 H30 V22 H34 V26 H30 V30 H20 M70 50 H80 V46 H76 V42 H80 V38 H76 V34 H80 V30 H70"
-                            stroke="#d4af37"
+                            stroke="#10b981"
                             strokeWidth="1"
                             fill="none"
                             className="msg-pattern"
@@ -275,11 +279,11 @@ const ConversationalUI = () => {
               </div>
             ))}
             
-            {/* Typing indicator */}
+            {/* Typing indicator - changed with transparent background */}
             <AnimatePresence>
               {typing && (
                 <div className="flex items-center gap-2 mt-2">
-                  <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 border border-amber-400/50 bg-amber-900/40">
+                  <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 border border-emerald-400/50 bg-emerald-900/40">
                     <Image
                       src="/images/athena-icon.png"
                       alt="Athena"
@@ -288,11 +292,11 @@ const ConversationalUI = () => {
                       className="object-cover"
                     />
                   </div>
-                  <div className="bg-amber-900/30 text-amber-100 rounded-xl rounded-tl-none px-4 py-2.5">
+                  <div className="rounded-xl rounded-tl-none px-4 py-2.5">
                     <div className="flex space-x-1">
-                      <div className="w-2 h-2 rounded-full bg-amber-200 animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                      <div className="w-2 h-2 rounded-full bg-amber-200 animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                      <div className="w-2 h-2 rounded-full bg-amber-200 animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                      <div className="w-2 h-2 rounded-full bg-emerald-200 animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                      <div className="w-2 h-2 rounded-full bg-emerald-200 animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                      <div className="w-2 h-2 rounded-full bg-emerald-200 animate-bounce" style={{ animationDelay: '300ms' }}></div>
                     </div>
                   </div>
                 </div>
@@ -302,9 +306,9 @@ const ConversationalUI = () => {
             <div ref={chatEndRef} />
           </div>
 
-          {/* Input area */}
+          {/* Input area - Simplified to matte black */}
           <div className="mt-4 flex gap-2 relative">
-            <div className="relative w-full group">
+            <div className="relative w-full">
               <TextInput
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
@@ -312,46 +316,7 @@ const ConversationalUI = () => {
                 placeholder="Ask the Oracle of Wisdom..."
                 disabled={typing}
               />
-              <svg
-                className="absolute inset-0 w-full h-full pointer-events-none"
-                viewBox="0 0 300 60"
-                preserveAspectRatio="none"
-              >
-                <rect
-                  x="2"
-                  y="2"
-                  width="296"
-                  height="56"
-                  rx="10"
-                  ry="10"
-                  fill="none"
-                  stroke="#d4af37"
-                  strokeWidth="1.5"
-                  strokeOpacity="0.6"
-                  className="input-border"
-                />
-                <path
-                  d="M10 30 H40 V25 H35 V20 H40 V15 H35 V10 H40"
-                  stroke="#d4af37"
-                  strokeWidth="1"
-                  strokeOpacity="0.4"
-                  fill="none"
-                  className="input-pattern"
-                />
-                <path
-                  d="M290 30 H260 V25 H265 V20 H260 V15 H265 V10 H260"
-                  stroke="#d4af37"
-                  strokeWidth="1"
-                  strokeOpacity="0.4"
-                  fill="none"
-                  className="input-pattern"
-                />
-              </svg>
-              <div className="absolute right-3 top-1/2 -translate-y-1/2 text-amber-500 opacity-0 group-focus-within:opacity-100 transition-opacity">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
+              {/* Removed decorative SVG overlay on textbox */}
             </div>
             <button
               type="button"
@@ -359,56 +324,20 @@ const ConversationalUI = () => {
               disabled={typing || !inputText.trim()}
               className={`rounded-lg ${
                 typing || !inputText.trim() 
-                  ? "bg-amber-700/40 cursor-not-allowed" 
-                  : "bg-amber-700/80 hover:bg-amber-600/80 hover:scale-105 active:scale-95"
-              } px-4 py-2 text-white font-medium transition-all whitespace-nowrap relative overflow-hidden`}
+                  ? "bg-emerald-700/40 cursor-not-allowed" 
+                  : "bg-emerald-600 hover:bg-emerald-500 hover:scale-105 active:scale-95"
+              } px-4 py-2 text-white font-medium transition-all whitespace-nowrap relative`}
             >
-              <span className="relative z-10">Send</span>
-              {/* Button decoration */}
-              <svg
-                className="absolute inset-0 w-full h-full pointer-events-none"
-                viewBox="0 0 100 40"
-                preserveAspectRatio="none"
-              >
-                <rect
-                  x="2"
-                  y="2"
-                  width="96"
-                  height="36"
-                  rx="8"
-                  ry="8"
-                  fill="none"
-                  stroke="#d4af37"
-                  strokeWidth="1.5"
-                  className="btn-border"
-                />
-                <path
-                  d="M20 20 H80"
-                  stroke="#fcd34d"
-                  strokeWidth="1"
-                  strokeDasharray="2 2"
-                  className="btn-line"
-                />
-                <circle
-                  cx="50"
-                  cy="20"
-                  r="10"
-                  fill="none"
-                  stroke="#d4af37"
-                  strokeWidth="1"
-                  strokeOpacity="0.3"
-                  className="btn-circle"
-                />
-              </svg>
+              <span>Send</span>
             </button>
           </div>
 
-          {/* Greek columns at the bottom corners */}
+          {/* Greek columns at the bottom corners - changed to green */}
           <div className="absolute bottom-1 left-2 w-12 h-24 opacity-20 pointer-events-none">
             <svg viewBox="0 0 40 100" className="w-full h-full">
-              <rect x="10" y="10" width="20" height="70" fill="#d4af37" />
-              <rect x="5" y="5" width="30" height="5" fill="#d4af37" />
-              <rect x="5" y="80" width="30" height="15" fill="#d4af37" />
+              <rect x="10" y="10" width="20" height="70" fill="#10b981" />
+              <rect x="5" y="5" width="30" height="5" fill="#10b981" />
+              <rect x="5" y="80" width="30" height="15" fill="#10b981" />
               {Array.from({ length: 6 }).map((_, i) => (
                 <rect key={i} x="10" y={15 + i * 10} width="20" height="1" fill="#1a1c2d" />
               ))}
@@ -416,9 +345,9 @@ const ConversationalUI = () => {
           </div>
           <div className="absolute bottom-1 right-2 w-12 h-24 opacity-20 pointer-events-none">
             <svg viewBox="0 0 40 100" className="w-full h-full">
-              <rect x="10" y="10" width="20" height="70" fill="#d4af37" />
-              <rect x="5" y="5" width="30" height="5" fill="#d4af37" />
-              <rect x="5" y="80" width="30" height="15" fill="#d4af37" />
+              <rect x="10" y="10" width="20" height="70" fill="#10b981" />
+              <rect x="5" y="5" width="30" height="5" fill="#10b981" />
+              <rect x="5" y="80" width="30" height="15" fill="#10b981" />
               {Array.from({ length: 6 }).map((_, i) => (
                 <rect key={i} x="10" y={15 + i * 10} width="20" height="1" fill="#1a1c2d" />
               ))}
@@ -527,10 +456,10 @@ const ConversationalUI = () => {
         @keyframes glow {
           0%,
           100% {
-            filter: drop-shadow(0 0 3px rgba(212, 175, 55, 0.7));
+            filter: drop-shadow(0 0 3px rgba(16, 185, 129, 0.7));
           }
           50% {
-            filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.9));
+            filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.9));
           }
         }
 
@@ -555,7 +484,7 @@ const ConversationalUI = () => {
           border-radius: 4px;
         }
         .scrollbar-thin::-webkit-scrollbar-thumb {
-          background: rgba(212, 175, 55, 0.5);
+          background: rgba(16, 185, 129, 0.5);
           border-radius: 4px;
         }
       `}</style>
