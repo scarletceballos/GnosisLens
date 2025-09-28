@@ -29,6 +29,7 @@ interface Message {
   text: string;
   id: string;
   isTyping?: boolean;
+  goddess?: string; // Store the original goddess for the message
 }
 
 const ProtectedOracle = () => {
@@ -46,6 +47,9 @@ const ProtectedOracle = () => {
   const [country, setCountry] = useState("Egypt");
   const [currency, setCurrency] = useState("USD");
   const [currentGoddess, setCurrentGoddess] = useState("ATHENA"); // Default goddess (owl girl)
+  const [scamScore, setScamScore] = useState<number | null>(null); // Store scam score
+  const [advice, setAdvice] = useState<string | null>(null); // Store advice data
+  const [showInfoBox, setShowInfoBox] = useState(false); // Control info box visibility
   const [parent] = useAutoAnimate();
   const chatEndRef = useRef<HTMLDivElement>(null);
   const { user, logout } = useAuth();
@@ -74,6 +78,7 @@ const ProtectedOracle = () => {
 
   // Function to get goddess profile image for chat
   const getGoddessProfileImage = (goddess: string) => {
+    // Always use the specific goddess for the message, never fall back to currentGoddess
     switch (goddess) {
       case 'DIKE':
         return '/images/DIKE_NOSHADOW.png';
@@ -82,7 +87,7 @@ const ProtectedOracle = () => {
       case 'NEMESIS':
         return '/images/NEMESIS_NOSHADOW.png';
       case 'ATHENA':
-        return '/images/athena_profile.png'; // Owl girl profile
+        return '/images/athena_profile.png';
       case 'THEMIS':
         return '/images/athena_profile.png';
       case 'METIS':
@@ -153,18 +158,26 @@ const ProtectedOracle = () => {
         // Change avatar immediately to the selected goddess
         setCurrentGoddess(analysis.goddess);
         
+        // Store the scam score and advice
+        setScamScore(analysis.scamScore);
+        setAdvice(analysis.advice);
+        
+        // Show info box with scam score
+        setShowInfoBox(true);
+        
         const characterResponse: Message = {
           sender: "character",
           text: analysis.goddessResponse,
           id: `char-${Date.now()}`,
-          isTyping: true
+          isTyping: true,
+          goddess: analysis.goddess // Store the original goddess for this message
         };
         setMessages(prev => [...prev, characterResponse]);
         
-        // Revert back to Athena (owl girl) after 20 seconds
+        // Revert back to Athena (owl girl) after 10 seconds
         setTimeout(() => {
           setCurrentGoddess("ATHENA");
-        }, 20000);
+        }, 10000);
       } else {
         const errorResponse: Message = {
           sender: "character",
@@ -213,20 +226,20 @@ const ProtectedOracle = () => {
   }, [messages]);
 
   return (
-    <div className="w-full max-h-[70vh] flex items-stretch relative">
-      <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-4 w-full z-10 p-4">
+    <div className="w-full max-h-[90vh] flex items-stretch relative">
+      <div className="grid grid-cols-1 md:grid-cols-[2.4fr_0.6fr] gap-4 w-full z-10 p-4">
         {/* Chat Area */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3 }}
-          className="flex flex-col h-[60vh] bg-[#1a1c2d]/85 dark:bg-[#1a1c2d]/90 backdrop-blur-lg rounded-2xl p-4 border border-emerald-500/30 relative overflow-hidden shadow-xl"
+          className="flex flex-col h-[80vh] bg-[#1a1c2d]/85 dark:bg-[#1a1c2d]/90 backdrop-blur-lg rounded-2xl p-6 border border-emerald-500/30 relative overflow-hidden shadow-xl"
         >
           {/* Background texture overlay */}
           <div className="absolute inset-0 opacity-5 bg-[url('/images/marble-texture.png')] bg-repeat"></div>
           
           {/* Golden laurel wreath top decoration */}
-          <div className="absolute top-0 left-0 w-full h-24 pointer-events-none overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-16 pointer-events-none overflow-hidden">
             <svg
               className="absolute top-0 left-1/2 transform -translate-x-1/2 w-96 h-32"
               viewBox="0 0 400 100"
@@ -289,11 +302,8 @@ const ProtectedOracle = () => {
           </div>
 
           {/* Chat header */}
-          <div className="relative pt-10 pb-3 mb-3 border-b border-emerald-500/30 text-center">
-            <h3 className="text-xl font-medium text-emerald-200">
-              <span className="tracking-wider">ORACLE OF WISDOM</span>
-            </h3>
-            <div className="absolute bottom-0 left-0 w-full h-4 overflow-hidden opacity-80">
+          <div className="relative pt-6 pb-2 mb-2 border-b border-emerald-500/30 text-center">
+            <div className="absolute bottom-0 left-0 w-full h-3 overflow-hidden opacity-80">
               <svg
                 className="w-full h-full"
                 viewBox="0 0 200 10"
@@ -311,7 +321,7 @@ const ProtectedOracle = () => {
           </div>
 
           {/* Message area */}
-          <div className="flex-grow overflow-y-auto pr-2 space-y-6 scrollbar-thin" ref={parent}>
+          <div className="flex-grow overflow-y-auto pr-3 space-y-8 scrollbar-thin" ref={parent}>
             {messageGroups.map((group) => (
               <div
                 key={group.id}
@@ -321,31 +331,31 @@ const ProtectedOracle = () => {
               >
                 {/* Avatar for character messages */}
                 {group.sender === "character" && (
-                  <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border border-emerald-400/50 bg-emerald-900/40 flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 border border-emerald-400/50 bg-emerald-900/40 flex items-center justify-center">
                     <Image
-                      src={getGoddessProfileImage(currentGoddess)}
-                      alt={currentGoddess}
-                      width={40}
-                      height={40}
+                      src={getGoddessProfileImage(group.messages[0]?.goddess || "ATHENA")}
+                      alt={group.messages[0]?.goddess || "ATHENA"}
+                      width={64}
+                      height={64}
                       className="object-contain"
                     />
                   </div>
                 )}
                 
-                <div className="flex flex-col gap-1.5 max-w-[85%]">
+                <div className="flex flex-col gap-2 max-w-[85%]">
                   {group.messages.map((message: Message) => (
                     <motion.div
                       key={message.id}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3 }}
-                      className={`relative rounded-xl px-4 py-3 ${
+                      className={`relative rounded-xl px-5 py-4 ${
                         message.sender === "user"
                           ? "ml-auto"
                           : ""
                       }`}
                     >
-                      <p className={`text-base leading-relaxed relative z-10 ${
+                      <p className={`text-lg leading-relaxed relative z-10 ${
                         message.sender === "user"
                           ? "text-blue-100"
                           : "text-emerald-100"
@@ -404,8 +414,8 @@ const ProtectedOracle = () => {
                 
                 {/* Avatar for user messages */}
                 {group.sender === "user" && (
-                  <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border border-blue-400/50 bg-blue-700/40">
-                    <div className="w-full h-full flex items-center justify-center text-white font-bold">
+                  <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 border border-blue-400/50 bg-blue-700/40">
+                    <div className="w-full h-full flex items-center justify-center text-white font-bold text-xl">
                       {user?.firstName?.charAt(0) || 'U'}
                     </div>
                   </div>
@@ -416,17 +426,17 @@ const ProtectedOracle = () => {
             {/* Typing indicator */}
             <AnimatePresence>
               {typing && (
-                <div className="flex items-center gap-2 mt-2">
-                  <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border border-emerald-400/50 bg-emerald-900/40 flex items-center justify-center">
+                <div className="flex items-center gap-3 mt-3">
+                  <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 border border-emerald-400/50 bg-emerald-900/40 flex items-center justify-center">
                     <Image
                       src={getGoddessProfileImage(currentGoddess)}
                       alt={currentGoddess}
-                      width={40}
-                      height={40}
+                      width={64}
+                      height={64}
                       className="object-contain"
                     />
                   </div>
-                  <div className="rounded-xl rounded-tl-none px-4 py-2.5">
+                  <div className="rounded-xl rounded-tl-none px-5 py-3">
                     <div className="flex space-x-1">
                       <div className="w-2 h-2 rounded-full bg-emerald-200 animate-bounce" style={{ animationDelay: '0ms' }}></div>
                       <div className="w-2 h-2 rounded-full bg-emerald-200 animate-bounce" style={{ animationDelay: '150ms' }}></div>
@@ -441,9 +451,9 @@ const ProtectedOracle = () => {
           </div>
 
           {/* Input area with dropdowns */}
-          <div className="mt-4 space-y-3">
+          <div className="mt-6 space-y-4">
             {/* Current selection display */}
-            <div className="text-xs text-emerald-300/70 text-center">
+            <div className="text-sm text-emerald-300/70 text-center">
               Selected: {country} | {currency}
             </div>
             
@@ -455,7 +465,7 @@ const ProtectedOracle = () => {
                   console.log('Country changed to:', e.target.value);
                   setCountry(e.target.value);
                 }}
-                className="flex-1 px-3 py-2 bg-[#2a2d3a]/50 border border-emerald-500/30 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 cursor-pointer relative z-10"
+                className="flex-1 px-4 py-3 bg-[#2a2d3a]/50 border border-emerald-500/30 rounded-lg text-white text-base focus:outline-none focus:ring-2 focus:ring-emerald-500/50 cursor-pointer relative z-10"
                 style={{ zIndex: 10 }}
               >
                 <option value="Egypt">🇪🇬 Egypt</option>
@@ -536,7 +546,7 @@ const ProtectedOracle = () => {
                   console.log('Currency changed to:', e.target.value);
                   setCurrency(e.target.value);
                 }}
-                className="flex-1 px-3 py-2 bg-[#2a2d3a]/50 border border-emerald-500/30 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 cursor-pointer relative z-10"
+                className="flex-1 px-4 py-3 bg-[#2a2d3a]/50 border border-emerald-500/30 rounded-lg text-white text-base focus:outline-none focus:ring-2 focus:ring-emerald-500/50 cursor-pointer relative z-10"
                 style={{ zIndex: 10 }}
               >
                 <option value="USD">💵 USD (US Dollar)</option>
@@ -599,7 +609,7 @@ const ProtectedOracle = () => {
             </div>
 
             {/* Text input and send button */}
-            <div className="flex gap-2 relative">
+            <div className="flex gap-3 relative">
               <div className="relative w-full">
                 <TextInput
                   value={inputText}
@@ -617,12 +627,14 @@ const ProtectedOracle = () => {
                   typing || !inputText.trim() 
                     ? "bg-emerald-700/40 cursor-not-allowed" 
                     : "bg-emerald-600 hover:bg-emerald-500 hover:scale-105 active:scale-95"
-                } px-4 py-2 text-white font-medium transition-all whitespace-nowrap relative`}
+                } px-5 py-3 text-white font-medium transition-all whitespace-nowrap relative`}
               >
                 <span>Send</span>
               </button>
             </div>
           </div>
+
+
 
           {/* Greek columns at the bottom corners - moved up to avoid dropdown interference */}
           <div className="absolute bottom-20 left-2 w-12 h-24 opacity-20 pointer-events-none">
@@ -648,9 +660,9 @@ const ProtectedOracle = () => {
         </motion.div>
 
         {/* Character Area */}
-        <div className="hidden md:block relative h-[60vh] overflow-visible">
+        <div className="hidden md:block relative h-[80vh] overflow-visible">
           <div className="absolute inset-0 flex items-end justify-end transition-all duration-700 opacity-100">
-            <div className="relative w-[130%] h-[130%] -mb-12 -mr-16 animate-float-slow">
+            <div className="relative w-[120%] h-[120%] -mb-8 -mr-8 animate-float-slow">
               <Image
                 src={getGoddessImage(currentGoddess)}
                 alt={currentGoddess}
@@ -659,6 +671,59 @@ const ProtectedOracle = () => {
                 className="object-contain drop-shadow-2xl"
                 sizes="(max-width: 768px) 100vw, 70vw"
               />
+              
+              {/* Info Box - Bottom Right */}
+              {showInfoBox && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                  className="absolute bottom-20 right-4 w-72 bg-[#1a1c2d]/95 backdrop-blur-lg rounded-2xl p-4 border border-emerald-500/30 shadow-2xl"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                      <Image
+                        src={getGoddessProfileImage(currentGoddess)}
+                        alt={currentGoddess}
+                        width={32}
+                        height={32}
+                        className="object-contain rounded-full"
+                      />
+                    </div>
+                    <div>
+                      <h4 className="text-emerald-200 font-medium text-sm">{currentGoddess}</h4>
+                      <p className="text-emerald-300/70 text-xs">
+                        {currentGoddess === "ATHENA" ? "Wise Guidance" : "Scam Assessment"}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-emerald-100 text-sm leading-relaxed">
+                    {currentGoddess === "ATHENA" ? (
+                      <p>{advice}</p>
+                    ) : (
+                      <div className="text-center">
+                        <div className={`text-2xl font-bold mb-2 ${
+                          scamScore && scamScore <= 30 ? 'text-green-400' : 
+                          scamScore && scamScore <= 70 ? 'text-yellow-400' : 
+                          'text-red-400'
+                        }`}>
+                          {scamScore}%
+                        </div>
+                        <div className={`text-xs font-medium ${
+                          scamScore && scamScore <= 30 ? 'text-green-300' : 
+                          scamScore && scamScore <= 70 ? 'text-yellow-300' : 
+                          'text-red-300'
+                        }`}>
+                          {scamScore && scamScore <= 30 ? 'Fair Deal' : 
+                           scamScore && scamScore <= 70 ? 'Moderate Risk' : 
+                           'High Risk'}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div className="absolute -bottom-2 right-4 w-4 h-4 bg-[#1a1c2d]/95 border-r border-b border-emerald-500/30 transform rotate-45"></div>
+                </motion.div>
+              )}
             </div>
           </div>
         </div>
