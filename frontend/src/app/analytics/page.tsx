@@ -26,6 +26,13 @@ interface PurchaseHistory {
   scamScore: number;
   goddess: string;
   timestamp: string;
+  currencyConversion?: {
+    originalAmount: number;
+    originalCurrency: string;
+    convertedAmount: number;
+    convertedCurrency: string;
+    exchangeRate: number;
+  };
 }
 
 export default function Analytics() {
@@ -265,6 +272,11 @@ export default function Analytics() {
                       <div className="text-emerald-200 font-medium">{purchase.itemName}</div>
                       <div className="text-emerald-300/70 text-sm">
                         {purchase.country} • {purchase.pricePaid} {purchase.currency}
+                        {purchase.currencyConversion && (
+                          <span className="text-blue-300/80 ml-2">
+                            (≈ {purchase.currencyConversion.convertedAmount} {purchase.currencyConversion.convertedCurrency})
+                          </span>
+                        )}
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
