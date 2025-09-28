@@ -2,28 +2,20 @@
 
 import React, { useState, useEffect } from "react";
 
-interface TypewriterTextProps {
+interface TypewriterMessageProps {
   text: string;
   speed?: number;
   className?: string;
   onComplete?: () => void;
-  as?: React.ElementType;
 }
 
-const TypewriterText: React.FC<TypewriterTextProps> = ({
+const TypewriterMessage: React.FC<TypewriterMessageProps> = ({
   text,
-  speed = 50,
+  speed = 30, // Faster default speed for chat messages
   className = "",
-  onComplete,
-  as: Component = "span" // Change default from paragraph to span
+  onComplete
 }) => {
   const [displayedText, setDisplayedText] = useState("");
-
-  useEffect(() => {
-    if (displayedText === text && onComplete) {
-      onComplete();
-    }
-  }, [displayedText, text, onComplete]);
 
   useEffect(() => {
     let currentIndex = 0;
@@ -35,13 +27,14 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
         currentIndex++;
       } else {
         clearInterval(intervalId);
+        if (onComplete) onComplete();
       }
     }, speed);
 
     return () => clearInterval(intervalId);
-  }, [text, speed]);
+  }, [text, speed, onComplete]);
 
-  return <Component className={className}>{displayedText}</Component>;
+  return <span className={className}>{displayedText}</span>;
 };
 
-export default TypewriterText;
+export default TypewriterMessage;

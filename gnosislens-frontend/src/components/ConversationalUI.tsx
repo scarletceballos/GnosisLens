@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import Image from "next/image";
 import TextInput from "./TextInput";
 import { motion, AnimatePresence } from "../components/motion-polyfill";
+import TypewriterMessage from "./TypewriterMessage";
 
 // Optional import for auto-animate - use a ref if not available
 // Provide a fallback; we'll try to dynamically load the library client-side to avoid build-time
@@ -33,6 +34,7 @@ interface Message {
   sender: "user" | "character";
   text: string;
   id: string;
+  isTyping?: boolean; // Track if message is still being typed
 }
 
 const ConversationalUI = () => {
@@ -57,7 +59,7 @@ const ConversationalUI = () => {
   const handleSend = async () => {
     if (!inputText.trim() || typing) return;
     
-    // Add user message
+    // Add user message - no typewriter for user messages
     const userMessage: Message = { 
       sender: "user", 
       text: inputText,
@@ -70,16 +72,26 @@ const ConversationalUI = () => {
     setTyping(true);
     
     // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await new Promise(resolve => setTimeout(resolve, 1000));
     
-    // Add response
+    // Add response with typewriter flag
     const characterResponse: Message = {
       sender: "character",
       text: "The wisdom of the gods flows through me. Let me contemplate your inquiry...",
-      id: `char-${Date.now()}`
+      id: `char-${Date.now()}`,
+      isTyping: true // Mark that this message should use typewriter effect
     };
     setMessages(prev => [...prev, characterResponse]);
     setTyping(false);
+  };
+
+  // Handle typewriter completion for a specific message
+  const handleTypewriterComplete = (messageId: string) => {
+    setMessages(prev => 
+      prev.map(msg => 
+        msg.id === messageId ? { ...msg, isTyping: false } : msg
+      )
+    );
   };
 
   const messageGroups = useMemo(() => {
@@ -101,7 +113,7 @@ const ConversationalUI = () => {
 
   return (
     <div className="w-full max-h-[70vh] flex items-stretch relative">
-      <div className="grid grid-cols-1 md:grid-cols-[1fwhr_0.8fr] gap-4 w-full z-10 p-4">
+      <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-4 w-full z-10 p-4">
         {/* Chat Area - Made more opaque and changed to green theme */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
@@ -207,7 +219,7 @@ const ConversationalUI = () => {
                   group.sender === "user" ? "justify-end" : "justify-start"
                 }`}
               >
-                {/* Avatar for character messages - UPDATED with larger size */}
+                {/* Avatar for character messages */}
                 {group.sender === "character" && (
                   <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border border-emerald-400/50 bg-emerald-900/40 flex items-center justify-center">
                     <Image
@@ -238,7 +250,14 @@ const ConversationalUI = () => {
                           ? "text-blue-100"
                           : "text-emerald-100"
                       }`}>
-                        {message.text}
+                        {message.sender === "character" && message.isTyping ? (
+                          <TypewriterMessage 
+                            text={message.text} 
+                            onComplete={() => handleTypewriterComplete(message.id)}
+                          />
+                        ) : (
+                          message.text
+                        )}
                       </p>
 
                       {/* Animated border - changed to green for oracle */}
@@ -294,7 +313,7 @@ const ConversationalUI = () => {
               </div>
             ))}
             
-            {/* Typing indicator - UPDATED with larger size */}
+            {/* Typing indicator */}
             <AnimatePresence>
               {typing && (
                 <div className="flex items-center gap-2 mt-2">
