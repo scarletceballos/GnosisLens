@@ -18,7 +18,7 @@ export default function AuthPage() {
           transition={{ duration: 0.5 }}
           className="text-center mb-8"
         >
-          <h1 className="text-4xl font-bold text-emerald-600 mb-2">GnosisLens</h1>
+          <h1 className="text-4xl font-bold text-emerald-600 mb-2 font-[var(--font-gfs-neohellenic)]">GnosisLens</h1>
           <p className="text-emerald-600">Oracle of Wisdom</p>
         </motion.div>
 

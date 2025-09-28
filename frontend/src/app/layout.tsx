@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, GFS_Neohellenic } from "next/font/google";
 import "./globals.css";
 import ClientBackgroundWrapper from "../components/ClientBackgroundWrapper";
 import DecorativeLayout from "../components/DecorativeLayout";
@@ -15,6 +15,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const gfsNeohellenic = GFS_Neohellenic({
+  variable: "--font-gfs-neohellenic",
+  subsets: ["greek"],
+  weight: ["400", "700"],
+});
+
 export const metadata: Metadata = {
   title: "GnosisLens",
   description: "Informed on what decevies",
@@ -28,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${gfsNeohellenic.variable} antialiased`}
       >
         <AuthProvider>
           <ClientBackgroundWrapper />

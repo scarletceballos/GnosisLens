@@ -20,7 +20,7 @@ export default function Header() {
     <header className="w-full flex items-center py-4 px-6 relative z-50">
       {/* Center - Logo/Title */}
       <div className="absolute left-1/2 transform -translate-x-1/2">
-        <h1 className="text-3xl font-bold text-emerald-600">GnosisLens</h1>
+        <h1 className="text-3xl font-bold text-emerald-600 font-[var(--font-gfs-neohellenic)]">GnosisLens</h1>
       </div>
 
       {/* Right side - User info and actions */}

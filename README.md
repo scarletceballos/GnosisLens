@@ -30,35 +30,81 @@ A fullstack travel scam detection app with AI-powered analysis and user analytic
 
 ## Prerequisites
 
+### For Local Development
 - **Node.js** (v18 or higher) - [Download here](https://nodejs.org/)
 - **MongoDB** (local or cloud) - [Download here](https://www.mongodb.com/try/download/community) or use [MongoDB Atlas](https://www.mongodb.com/atlas)
 - **Gemini API key** - [Get from Google AI Studio](https://aistudio.google.com/app/apikey)
 
+### For Docker Deployment
+- **Docker** - [Download Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- **Docker Compose** (included with Docker Desktop)
+- **Gemini API key** - [Get from Google AI Studio](https://aistudio.google.com/app/apikey)
+
 ## Quick Setup
 
-### 1. Clone the Repository
+### Option 1: Docker Deployment (Recommended)
+
+#### 1. Clone the Repository
 ```bash
 git clone <your-repo-url>
 cd GnosisLens-fresh
 ```
 
-### 2. Install Dependencies
+#### 2. Environment Configuration
+```bash
+cp env.example .env
+```
 
-#### Backend Dependencies
+Edit `.env` with your Gemini API key:
+```env
+GEMINI_API_KEY=your-gemini-api-key-here
+```
+
+#### 3. Run with Docker Compose
+```bash
+docker-compose up -d
+```
+
+The application will be available at:
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:8000
+- **MongoDB**: localhost:27017
+
+#### 4. Using Pre-built Images from Docker Hub
+```bash
+# Pull the latest images
+docker pull afshanakmal/gnosis_lens-frontend:latest
+docker pull afshanakmal/gnosis_lens-backend:latest
+
+# Run the application
+docker-compose up -d
+```
+
+### Option 2: Local Development
+
+#### 1. Clone the Repository
+```bash
+git clone <your-repo-url>
+cd GnosisLens-fresh
+```
+
+#### 2. Install Dependencies
+
+##### Backend Dependencies
 ```bash
 cd backend
 npm install
 cd ..
 ```
 
-#### Frontend Dependencies
+##### Frontend Dependencies
 ```bash
 cd frontend
 npm install
 cd ..
 ```
 
-### 3. Environment Configuration
+#### 3. Environment Configuration
 
 Copy the example environment file:
 ```bash
@@ -80,7 +126,7 @@ GEMINI_API_KEY=your-gemini-api-key-here
 PORT=8000
 ```
 
-### 4. Database Setup
+#### 4. Database Setup
 
 **Option A: Local MongoDB**
 1. Install MongoDB locally
@@ -93,7 +139,7 @@ PORT=8000
 3. Get your connection string
 4. Update `MONGODB_URI` in `.env`
 
-### 5. Get Gemini API Key
+#### 5. Get Gemini API Key
 
 1. Visit [Google AI Studio](https://aistudio.google.com/app/apikey)
 2. Sign in with your Google account
@@ -102,7 +148,21 @@ PORT=8000
 
 ## Running the Application
 
-### Start the Backend Server
+### Docker Deployment (Recommended)
+```bash
+# Start all services
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop services
+docker-compose down
+```
+
+### Local Development
+
+#### Start the Backend Server
 ```bash
 # From the backend directory
 cd backend
@@ -111,7 +171,7 @@ npm run dev
 
 The backend will start on `http://localhost:8000`
 
-### Start the Frontend Development Server
+#### Start the Frontend Development Server
 ```bash
 # From the frontend directory (in a new terminal)
 cd frontend
@@ -209,9 +269,49 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 This project is licensed under the MIT License.
 
+## Docker Hub Images
+
+The application is available as pre-built Docker images on Docker Hub:
+
+- **Frontend**: `afshanakmal/gnosis_lens-frontend:latest`
+- **Backend**: `afshanakmal/gnosis_lens-backend:latest`
+
+### Pull and Run Individual Images
+
+```bash
+# Pull the images
+docker pull afshanakmal/gnosis_lens-frontend:latest
+docker pull afshanakmal/gnosis_lens-backend:latest
+
+# Run frontend
+docker run -d -p 3000:3000 --name gnosislens-frontend afshanakmal/gnosis_lens-frontend:latest
+
+# Run backend (requires MongoDB)
+docker run -d -p 8000:8000 --name gnosislens-backend afshanakmal/gnosis_lens-backend:latest
+```
+
+### Docker Compose with Pre-built Images
+
+The `docker-compose.yml` is configured to use the pre-built images from Docker Hub, making deployment simple and fast.
+
 ## Troubleshooting
 
-### Common Issues
+### Docker Issues
+
+**Containers won't start:**
+- Check if Docker Desktop is running
+- Verify `.env` file exists and has correct values
+- Check container logs: `docker-compose logs [service-name]`
+
+**Port conflicts:**
+- Ensure ports 3000, 8000, and 27017 are available
+- Stop other services using these ports
+
+**Image pull errors:**
+- Check internet connection
+- Verify Docker Hub credentials: `docker login`
+
+### Local Development Issues
 
 **Backend won't start:**
 - Check if MongoDB is running
