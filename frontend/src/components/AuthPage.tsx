@@ -18,8 +18,8 @@ export default function AuthPage() {
           transition={{ duration: 0.5 }}
           className="text-center mb-8"
         >
-          <h1 className="text-4xl font-bold text-emerald-200 mb-2">GnosisLens</h1>
-          <p className="text-emerald-300/70">Oracle of Wisdom</p>
+          <h1 className="text-4xl font-bold text-emerald-600 mb-2">GnosisLens</h1>
+          <p className="text-emerald-600">Oracle of Wisdom</p>
         </motion.div>
 
         {/* Auth Form */}

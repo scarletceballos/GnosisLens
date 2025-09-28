@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { motion } from '../components/motion-polyfill';
-import { useAuth } from '../../../components/AuthContext';
+import { motion } from '../../components/motion-polyfill';
+import { useAuth } from '../../components/AuthContext';
+import { useRouter } from 'next/navigation';
 
 interface UserAnalytics {
   totalPurchases: number;
@@ -29,10 +30,15 @@ interface PurchaseHistory {
 
 export default function Analytics() {
   const { user } = useAuth();
+  const router = useRouter();
   const [analytics, setAnalytics] = useState<UserAnalytics | null>(null);
   const [purchaseHistory, setPurchaseHistory] = useState<PurchaseHistory[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const handleBackToChat = () => {
+    router.push('/');
+  };
 
   useEffect(() => {
     if (user) {
@@ -124,16 +130,19 @@ export default function Analytics() {
       <Image src="/images/background.png" alt="Background" fill className="object-cover -z-10" priority />
 
       <div className="min-h-screen p-8 pb-20 sm:p-20">
-        {/* Header */}
+        {/* Back Button */}
         <div className="mb-6">
-          <Image
-            className="dark:invert h-16 w-auto"
-            src="/headertext.png"
-            alt="Header"
-            width={10000}
-            height={10}
-            priority
-          />
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleBackToChat}
+            className="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Chat
+          </motion.button>
         </div>
 
         {/* Analytics Content */}
@@ -143,7 +152,7 @@ export default function Analytics() {
           transition={{ duration: 0.8 }}
           className="max-w-6xl mx-auto"
         >
-          <h1 className="text-4xl font-bold text-emerald-200 mb-8 text-center">Analytics</h1>
+          <h1 className="text-4xl font-bold text-emerald-600 mb-8 text-center">Analytics</h1>
           
           {analytics ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">

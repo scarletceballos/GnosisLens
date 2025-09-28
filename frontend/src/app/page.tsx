@@ -21,7 +21,7 @@ export default function Home() {
   }
 
   return (
-    <div className="font-sans grid grid-rows-[auto_1fr_auto] items-center min-h-screen p-4 sm:p-6 gap-4">
+    <div className="font-sans grid grid-rows-[auto_1fr_auto] items-center min-h-screen p-4 sm:p-6 gap-4 pb-8">
       <Header />
       
       <main className="w-full flex flex-col items-center">
