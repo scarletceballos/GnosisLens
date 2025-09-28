@@ -12,7 +12,14 @@ let db;
 export async function connectToDatabase() {
   try {
     if (!client) {
-      client = new MongoClient(MONGODB_URI);
+      client = new MongoClient(MONGODB_URI, {
+        serverSelectionTimeoutMS: 15000, // Keep trying to send operations for 15 seconds
+        connectTimeoutMS: 15000, // Give up initial connection after 15 seconds
+        socketTimeoutMS: 30000, // Close sockets after 30 seconds of inactivity
+        maxPoolSize: 1, // Maintain 1 socket connection
+        retryWrites: false, // Disable retry writes
+        retryReads: false, // Disable retry reads
+      });
       await client.connect();
       console.log('✅ Connected to MongoDB');
     }

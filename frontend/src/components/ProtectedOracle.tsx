@@ -38,7 +38,8 @@ const ProtectedOracle = () => {
       {
         sender: "character",
         text: "Welcome to GnosisLens! I am the Oracle of Wisdom, powered by the ancient goddesses. Share your travel purchase details and I will analyze them for fairness using the wisdom of Dike (fair deals), Apate (scam detection), and Nemesis (righteous justice). What purchase would you like me to examine?",
-        id: "initial-msg"
+        id: "initial-msg",
+        goddess: "ATHENA"
       },
     ]
   );
@@ -81,11 +82,11 @@ const ProtectedOracle = () => {
     // Always use the specific goddess for the message, never fall back to currentGoddess
     switch (goddess) {
       case 'DIKE':
-        return '/images/DIKE_NOSHADOW.png';
+        return '/images/pfpDIKE.png'; // Face-focused image for chat
       case 'APATE':
-        return '/images/APATE_NOSHADOW.png';
+        return '/images/pfpAPATE.png'; // Face-focused image for chat
       case 'NEMESIS':
-        return '/images/NEMESIS_NOSHADOW.png';
+        return '/images/pfpnem.png'; // Face-focused image for chat
       case 'ATHENA':
         return '/images/athena_profile.png';
       case 'THEMIS':
@@ -174,16 +175,17 @@ const ProtectedOracle = () => {
         };
         setMessages(prev => [...prev, characterResponse]);
         
-        // Revert back to Athena (owl girl) after 10 seconds
+        // Switch back to Athena after 12 seconds for advice (give goddess more time to finish)
         setTimeout(() => {
           setCurrentGoddess("ATHENA");
-        }, 10000);
+        }, 12000);
       } else {
         const errorResponse: Message = {
           sender: "character",
           text: "I apologize, but I encountered an error while analyzing your request. Please try again.",
           id: `char-${Date.now()}`,
-          isTyping: true
+          isTyping: true,
+          goddess: "ATHENA" // Default to Athena for error messages
         };
         setMessages(prev => [...prev, errorResponse]);
       }
@@ -193,7 +195,8 @@ const ProtectedOracle = () => {
         sender: "character",
         text: "I apologize, but I'm unable to connect to the wisdom of the gods at this moment. Please try again later.",
         id: `char-${Date.now()}`,
-        isTyping: true
+        isTyping: true,
+        goddess: "ATHENA" // Default to Athena for error messages
       };
       setMessages(prev => [...prev, errorResponse]);
     }
@@ -337,7 +340,7 @@ const ProtectedOracle = () => {
                       alt={group.messages[0]?.goddess || "ATHENA"}
                       width={64}
                       height={64}
-                      className="object-contain"
+                      className="object-cover object-center"
                     />
                   </div>
                 )}
@@ -433,7 +436,7 @@ const ProtectedOracle = () => {
                       alt={currentGoddess}
                       width={64}
                       height={64}
-                      className="object-contain"
+                      className="object-cover object-center"
                     />
                   </div>
                   <div className="rounded-xl rounded-tl-none px-5 py-3">
