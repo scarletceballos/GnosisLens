@@ -101,3 +101,5 @@ Thumbs.db
 
 # Test files
 test-auth.js
+
+next-env.d.ts
